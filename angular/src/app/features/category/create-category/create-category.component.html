@@ -1,0 +1,29 @@
+<form
+  class="form-horizontal"
+  autocomplete="off"
+  #editRoleForm="ngForm"
+  (ngSubmit)="submit()"
+>
+  <abp-modal-header
+    [title]="model.id ? 'Edit Category' : 'Create Category'"
+    (onCloseClick)="bsModalRef.hide()"
+  ></abp-modal-header>
+  <div class="modal-body">
+    <div class="form-group">
+      <label for="name">Name</label>
+      <input
+        id="name"
+        name="name"
+        type="text"
+        class="form-control"
+        required="required"
+        [(ngModel)]="model.name"
+      />
+    </div>
+  </div>
+  <abp-modal-footer
+    [cancelDisabled]="saving"
+    [saveDisabled]="!editRoleForm.form.valid || saving"
+    (onCancelClick)="bsModalRef.hide()"
+  ></abp-modal-footer>
+</form>
