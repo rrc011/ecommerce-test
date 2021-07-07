@@ -10,8 +10,8 @@ using OnlineShop.EntityFrameworkCore;
 namespace OnlineShop.Migrations
 {
     [DbContext(typeof(OnlineShopDbContext))]
-    [Migration("20210706212200_change type property to supplierProduct")]
-    partial class changetypepropertytosupplierProduct
+    [Migration("20210707153820_delete supplier entity")]
+    partial class deletesupplierentity
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -1704,51 +1704,6 @@ namespace OnlineShop.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Product","OnlineShop");
-                });
-
-            modelBuilder.Entity("OnlineShop.Models.Supplier", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<DateTime>("CreationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("CreatorUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<long?>("DeleterUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
-                    b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<long?>("LastModifierUserId")
-                        .HasColumnType("bigint");
-
-                    b.Property<string>("Name")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("Phone")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("RNC")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Supplier","OnlineShop");
                 });
 
             modelBuilder.Entity("OnlineShop.Models.SupplierProduct", b =>

@@ -14,6 +14,7 @@ namespace OnlineShop.Authorization
             context.CreatePermission(PermissionNames.Pages_Category, L("Category"));
             context.CreatePermission(PermissionNames.Pages_Product, L("Product"));
             context.CreatePermission(PermissionNames.Product_Get, L("Consult Products"));
+            context.CreatePermission(PermissionNames.Product_Checkout, L("Checkout Products"));
             context.CreatePermission(PermissionNames.Pages_Supplying, L("Supplying"));
             context.CreatePermission(PermissionNames.Pages_Tenants, L("Tenants"), multiTenancySides: MultiTenancySides.Host);
         }

@@ -7,7 +7,12 @@
   >
     {{ cancelLabel }}
   </button>
-  <button type="submit" class="btn btn-primary" [disabled]="saveDisabled">
+  <button
+    type="submit"
+    class="btn btn-primary"
+    [disabled]="saveDisabled"
+    *ngIf="showSave"
+  >
     {{ saveLabel }}
   </button>
 </div>

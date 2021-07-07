@@ -12,6 +12,7 @@
 
         public const string Pages_Product = "Pages.Product";
         public const string Product_Get = "Pages.Product.Get";
+        public const string Product_Checkout = "Pages.Product.Checkout";
 
         public const string Pages_Supplying = "Pages.Supplying";
 

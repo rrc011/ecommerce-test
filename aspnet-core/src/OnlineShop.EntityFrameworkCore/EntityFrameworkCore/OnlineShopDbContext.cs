@@ -12,7 +12,6 @@ namespace OnlineShop.EntityFrameworkCore
         /* Define a DbSet for each entity of the application */
         public DbSet<Product> Product { get; set; }
         public DbSet<Category> Category { get; set; }
-        public DbSet<Supplier> Supplier { get; set; }
         public DbSet<SupplierProduct> SupplierProduct { get; set; }
         public DbSet<Order> Order { get; set; }
         public DbSet<OrderDetail> OrderDetail { get; set; }

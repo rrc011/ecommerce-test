@@ -680,6 +680,63 @@ export class ProductServiceProxy {
     }
 
     /**
+     * @param productId (optional) 
+     * @param quantity (optional) 
+     * @return Success
+     */
+    checkout(productId: number | undefined, quantity: number | undefined): Observable<void> {
+        let url_ = this.baseUrl + "/api/services/app/Product/Checkout?";
+        if (productId === null)
+            throw new Error("The parameter 'productId' cannot be null.");
+        else if (productId !== undefined)
+            url_ += "productId=" + encodeURIComponent("" + productId) + "&";
+        if (quantity === null)
+            throw new Error("The parameter 'quantity' cannot be null.");
+        else if (quantity !== undefined)
+            url_ += "quantity=" + encodeURIComponent("" + quantity) + "&";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            headers: new HttpHeaders({
+            })
+        };
+
+        return this.http.request("post", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processCheckout(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processCheckout(<any>response_);
+                } catch (e) {
+                    return <Observable<void>><any>_observableThrow(e);
+                }
+            } else
+                return <Observable<void>><any>_observableThrow(response_);
+        }));
+    }
+
+    protected processCheckout(response: HttpResponseBase): Observable<void> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (<any>response).error instanceof Blob ? (<any>response).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return _observableOf<void>(<any>null);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap(_responseText => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf<void>(<any>null);
+    }
+
+    /**
      * @param id (optional) 
      * @return Success
      */
@@ -4296,6 +4353,7 @@ export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInform
     application: ApplicationInfoDto;
     user: UserLoginInfoDto;
     tenant: TenantLoginInfoDto;
+    roleName: string[] | undefined;
 
     constructor(data?: IGetCurrentLoginInformationsOutput) {
         if (data) {
@@ -4311,6 +4369,11 @@ export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInform
             this.application = _data["application"] ? ApplicationInfoDto.fromJS(_data["application"]) : <any>undefined;
             this.user = _data["user"] ? UserLoginInfoDto.fromJS(_data["user"]) : <any>undefined;
             this.tenant = _data["tenant"] ? TenantLoginInfoDto.fromJS(_data["tenant"]) : <any>undefined;
+            if (Array.isArray(_data["roleName"])) {
+                this.roleName = [] as any;
+                for (let item of _data["roleName"])
+                    this.roleName.push(item);
+            }
         }
     }
 
@@ -4326,6 +4389,11 @@ export class GetCurrentLoginInformationsOutput implements IGetCurrentLoginInform
         data["application"] = this.application ? this.application.toJSON() : <any>undefined;
         data["user"] = this.user ? this.user.toJSON() : <any>undefined;
         data["tenant"] = this.tenant ? this.tenant.toJSON() : <any>undefined;
+        if (Array.isArray(this.roleName)) {
+            data["roleName"] = [];
+            for (let item of this.roleName)
+                data["roleName"].push(item);
+        }
         return data; 
     }
 
@@ -4341,6 +4409,7 @@ export interface IGetCurrentLoginInformationsOutput {
     application: ApplicationInfoDto;
     user: UserLoginInfoDto;
     tenant: TenantLoginInfoDto;
+    roleName: string[] | undefined;
 }
 
 export class SupplierProductDto implements ISupplierProductDto {

@@ -16,6 +16,7 @@ namespace OnlineShop.Authorization.Roles
         {
             public const string Admin = "Admin";
             public const string Supplier = "Supplier";
+            public const string Client = "Client";
         }
     }
 }

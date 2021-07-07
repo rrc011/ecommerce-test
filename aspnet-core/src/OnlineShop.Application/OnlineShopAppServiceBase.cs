@@ -6,6 +6,7 @@ using Abp.IdentityFramework;
 using Abp.Runtime.Session;
 using OnlineShop.Authorization.Users;
 using OnlineShop.MultiTenancy;
+using System.Collections.Generic;
 
 namespace OnlineShop
 {
@@ -32,6 +33,12 @@ namespace OnlineShop
             }
 
             return user;
+        }
+
+        protected virtual async Task<IList<string>> GetRoles()
+        {
+            var user = await UserManager.FindByIdAsync(AbpSession.UserId.ToString());
+            return await UserManager.GetRolesAsync(user);
         }
 
         protected virtual Task<Tenant> GetCurrentTenantAsync()

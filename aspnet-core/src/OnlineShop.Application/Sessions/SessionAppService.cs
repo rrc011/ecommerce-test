@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Abp.Auditing;
+using OnlineShop.Authorization.Users;
 using OnlineShop.Sessions.Dto;
 
 namespace OnlineShop.Sessions
@@ -28,6 +30,10 @@ namespace OnlineShop.Sessions
             if (AbpSession.UserId.HasValue)
             {
                 output.User = ObjectMapper.Map<UserLoginInfoDto>(await GetCurrentUserAsync());
+
+                var roles = await GetRoles();
+
+                output.RoleName = roles;
             }
 
             return output;

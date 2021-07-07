@@ -40,5 +40,13 @@ namespace OnlineShop.Features.Product
         {
             return Guid.NewGuid().ToString();
         }
+
+        [AbpAuthorize(PermissionNames.Product_Checkout)]
+        public async Task Checkout(int productId, double quantity)
+        {
+            var product = await Repository.GetAsync(productId);
+            product.Stock -= quantity;
+            await Repository.UpdateAsync(product);
+        }
     }
 }
